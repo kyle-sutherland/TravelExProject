@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <m eta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+  <div id="prducts-table">
+    <h1>Vacation Packages</h1>
+    <table border="1">
+      <tr>
+        <thead>
+          <% Object.keys(fields).forEach(function(key) {%>
+          <th><%-fields[key].name%></th>
+          <% }); %>
+        </thead>
+      </tr>
+      <tbody>
+        <% Object.keys(result).forEach(function(key) { %>
+        <tr><% Object.values(result[key]).forEach(function(value) {%>
+          <td><%-value%></td>
+          <% }) %>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <form method="post" action="/publishProducts">
+      <button type="submit" onclick="alert('query result saved as JSON')">Publish</button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <table border="1">
+    <tr>
+      <thead>
+        <% Object.keys(fields).forEach(function(key) {%>
+        <th><%-fields[key].name%></th>
+        <% }); %>
+      </thead>
+    </tr>
+    <tr>
+      <tbody>
+        <% Object.values(result[0]).forEach(function(value) {%>
+        <td><%-value%></td>
+        <% }); %>
+      </tbody>
+    </tr>
+  </table>
+  <form method="post" action="/updateAgent" name="updateAgent">
+    AgentId: <input type="number" name="AgentId" disabled="disabled" value="<%= result[0].AgentId %>" /><br>
+    First Name: <input type="text" name="AgtFirstName" value="<%= result[0].AgtFirstName %>" /><br>
+    Last Name: <input type="text" name="AgtLastName" value="<%= result[0].AgtLastName %>" /><br>
+    Phone: <input type="tel" name="AgtBusPhone" value="<%= result[0].AgtBusPhone %>" /><br>
+    Email: <input type="text" name="AgtEmail" value="<%= result[0].AgtEmail %>" /><br>
+    Position: <input type="text" name="AgtPosition" value="<%= result[0].AgtPosition %>" /><br>
+    Agency Id: <input type="number" name="AgencyId" value="<%= result[0].AgencyId %>" /><br>
+    <input type="submit" name="updateDb" value="Update Agent">
+  </form>
+</body>
+
+</html>

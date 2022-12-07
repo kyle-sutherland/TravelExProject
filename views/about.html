@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link href="./style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="viewHead" class="sticky-top pb-3"></div>
+  <div class="grid container-fluid col-lg-10 col-sm-12 align-items-center overflow-scroll" id="mainDiv">
+    <div class="container-fluid col-xl-6 col-lg-8 col-md-10 col-sm-10 padded py-5 text">
+      <h4>About Us</h4>
+      <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus dolor aperiam odio velit debitis dicta nulla? Ipsa, quas quae. Sit ea dolorem, quod sunt sint delectus iusto numquam? Corporis vero est doloremque voluptatum libero non a at inventore, tempora sed id esse voluptatibus animi quis culpa alias, ex aliquid reprehenderit eum enim vitae iure sunt. Debitis delectus cumque, aspernatur minima sint, voluptatem voluptas explicabo pariatur vitae tempore architecto cupiditate accusamus laborum aliquam deserunt porro odit nisi qui neque voluptatum? Tempore, debitis, molestiae magnam aspernatur quaerat accusantium ducimus modi dolore necessitatibus saepe quam sequi voluptate, harum impedit quod. Dolores ullam, vitae ducimus consequuntur deserunt libero ab voluptates numquam aspernatur quos quidem eos amet quam vero hic id! Aut laudantium ipsum enim ex vero doloremque, voluptatem, sunt natus optio, molestias dolorem non cumque possimus fugiat aliquam animi sequi. Ratione earum repellat vel quisquam numquam. Debitis id voluptates nobis optio, laboriosam veritatis quos necessitatibus tenetur consectetur aliquam dolores pariatur voluptas architecto delectus explicabo perspiciatis qui deleniti sapiente. Maiores provident voluptas, illo beatae magnam dolore asperiores veniam tempora sit esse, recusandae suscipit aperiam repellendus incidunt reiciendis distinctio quam? Debitis corrupti assumenda mollitia ipsam porro ab animi deleniti a, fugit, ad perferendis impedit, necessitatibus fuga saepe magni ea ut nam quia quasi libero molestiae eveniet asperiores velit. Molestias accusamus sed aperiam saepe labore, mollitia voluptas optio laborum repellendus nobis itaque cumque deleniti, quis reiciendis sint ullam beatae tempora ut odio! Asperiores fuga vitae itaque expedita deleniti alias nihil tempora, nisi ad a rem quam numquam!
+      </p>
+    </div>
+
+    <div id="agentsTableContainer" class="table-responsive mx-auto rounded shadow padded bg-light col-lg-6 col-md-10 col-sm-12 overflow-scroll p-5">
+      <div class="text px-3">
+        <h4>Our Team</h4>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+  <div id="viewFooter" class="responsive-footer"></div>
+  <script src="./jquery.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+  <script src="./clientScript.js"></script>
+  <script>
+    fetch('contactsList.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((jsondata) => {
+        makeTable(jsondata, 'agentsTable', 'agentsTableContainer', 'table-light table-hover pt-3');
+      });
+    loadViewHead();
+    loadViewFooter();
+  </script>
+</body>
+
+</html>

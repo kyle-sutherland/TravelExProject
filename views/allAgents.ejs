@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Contact</title>
+</head>
+
+<body>
+  <ol>
+    <% result.forEach((agent)=>{ %>
+    <li>
+      <%= agent.AgtFirstName + ' ' + agent.AgtLastName + ' ' +
+        agent.AgtBusPhone%>
+    </li>
+    <% }); %>
+  </ol>
+  <form method="post" action="/publishContactList">
+    <button type="submit" onclick="alert('query result saved as JSON')">Publish</button>
+  </form>
+</body>
+
+</html>

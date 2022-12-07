@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>register page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="projregister.css">
+  <link href="./style.css" rel="stylesheet">
+  </link>
+
+</head>
+
+<body>
+  <div id="viewHead" class="sticky-top pb-3"></div>
+  <div class="grid container-fluid col-lg-10 col-sm-12 align-items-center overflow-scroll" id="mainDiv">
+    <h1>fill out the registration form below</h1>
+    <h3>Become a registered user and get emailed notifications about our latest travel Packages</h3>
+    <br />
+    <div id="registerFormContainer" class="container grid col-lg-4 col-md-8 col-sm-10">
+      <form align="center" method="post" action="/registerCustomer">
+        <div class="pb-3">
+          <label class="form-label">First Name:</label><input class="form-control" type="text" id="Fname" name="Fname" />
+
+          <label class="form-label">Last Name:</label><input class="form-control" type="text" id="Lname" name="Lname" />
+
+          <label class="form-label">Address:</label><input class="form-control" type="text" id="addy" name="addy" />
+
+          <label for="postal">Postal Code:</label><input class="form-control" type="text" id="postal" name="postal" />
+
+          <label class="form-label">City:</label><input class="form-control" type="text" id="city" name="city" />
+
+          <label class="form-label">Province:</label><input class="form-control" type="text" id="prov" name="prov" />
+
+          <label class="form-label">country:</label><input class="form-control" type="text" id="country" name="country" />
+
+          <label class="form-label">email:</label><input class="form-control" type="text" id="email" name="email" />
+
+          <label class="form-label">Phone Number:</label><input class="form-control" type="text" id="phoneNumber" name="phoneNumber" />
+
+          <label class="form-label">Business Phone Number:</label><input class="form-control" type="text" id="busno" name="busno" />
+
+          <label class="form-label">User ID:</label><input class="form-control" type="text" id="userid" name="userid" />
+
+          <label class="form-label">Password</label><input class="form-control" type="password" id="passw" name="passw" />
+        </div>
+
+        <button type="submit" name="submit" class="btn btn-primary" onclick="return validate(this.form)">Submit</button>
+        <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+      </form>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div id="viewFooter" class="responsive-footer"></div>
+  <script src="./jquery.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+  <script src="./clientScript.js"></script>
+  <script>
+    loadViewHead();
+    loadViewFooter();
+  </script>
+</body>
+
+</html>
