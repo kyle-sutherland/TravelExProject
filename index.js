@@ -118,23 +118,25 @@ app.post('/registerCustomer', (req, res) => {
   let _prov = req.body.prov;
   let _country = req.body.country;
   let _email = req.body.email;
-  let _phonenumber = req.body.phoneNumber;
+  let _phonenumber = req.body.phone;
   let _busno = req.body.busNumber;
   let _userId = genId();
   let _passw = req.body.retypePass;
   let formDataObj = {
-    CustomerId: _userId,
-    CustFirstName: _fname,
-    CustLastName: _lname,
-    CustAddress: _address,
-    CustCity: _city,
-    CustProv: _prov,
-    CustPostal: _postal,
-    CustCountry: _country,
-    CustHomePhone: _phonenumber,
-    CustBusPhone: _busno,
-    CustEmail: _email,
-    CustPw: _passw,
+    _email: {
+      CustomerId: _userId,
+      CustFirstName: _fname,
+      CustLastName: _lname,
+      CustAddress: _address,
+      CustCity: _city,
+      CustProv: _prov,
+      CustPostal: _postal,
+      CustCountry: _country,
+      CustHomePhone: _phonenumber,
+      CustBusPhone: _busno,
+      CustEmail: _email,
+      CustPw: _passw,
+    },
   };
   fs.writeFile('./views/data/customerList.json', '', (err) => {
     if (err) throw err;

@@ -1,9 +1,14 @@
 //initializers
-$(document).ready(function () {
+jQuery(function () {
   $('[data-bs-toggle="popover"]').popover();
 });
-$(document).ready(function () {
+jQuery(function () {
   $('[data-bs-toggle="tooltip"]').tooltip();
+});
+jQuery(function () {
+  $(phone).mask('(000) 000-0000');
+  $(busNumber).mask('(000) 000-0000');
+  $(postCode).mask('S0S-0S0');
 });
 
 function checkPassLen(pass) {
