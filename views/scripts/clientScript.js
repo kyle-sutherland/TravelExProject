@@ -1,3 +1,88 @@
+//initializers
+$(document).ready(function () {
+  $('[data-bs-toggle="popover"]').popover();
+});
+$(document).ready(function () {
+  $('[data-bs-toggle="tooltip"]').tooltip();
+});
+
+function checkPassLen(pass) {
+  if (pass.length < 10) {
+    return false;
+  }
+}
+
+function isPassStrong(pass) {
+  return /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/.test(pass);
+}
+
+function isValidPostCode(postcode) {
+  if (postcode != /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+//validate form on submit.
+function validateForm() {
+  let a = document.forms['aForm']['choosePass'].value;
+  let b = document.forms['aForm']['retypePass'].value;
+  if (aForm.fname.value == '') {
+    alert('Must enter a first name');
+    aForm.fname.focus();
+    aForm.fname.setAttribute('class', 'form-control is-invalid');
+    return false;
+  }
+  if (aForm.lname.value == '') {
+    alert('Must enter a last name');
+    aForm.lname.focus();
+    aForm.lname.setAttribute('class', 'form-control is-invalid');
+    return false;
+  }
+  if (isValidPostCode(aForm.postCode.value) == false) {
+    alert('invalid postal code');
+    aForm.postCode.focus();
+    aForm.postCode.setAttribute('class', 'form-control is-invalid');
+    return false;
+  }
+  if (a != b) {
+    alert('passwords do not match!');
+    aForm.choosePass.focus();
+    aForm.choosePass.setAttribute('class', 'form-control is-invalid');
+    aForm.retypePass.setAttribute('class', 'form-control is-invalid');
+    return false;
+  }
+  if (checkPassLen(b) == false) {
+    alert('password must be at least 10 characters long');
+    aForm.choosePass.setAttribute('class', 'form-control is-invalid');
+    aForm.retypePass.setAttribute('class', 'form-control is-invalid');
+    return false;
+  }
+  if (isPassStrong(b) == false) {
+    alert(
+      'password must contain at least one number, one lower-case and one upper-case letter'
+    );
+    aForm.choosePass.setAttribute('class', 'form-control is-invalid');
+    aForm.retypePass.setAttribute('class', 'form-control is-invalid');
+    return false;
+  } else {
+    if (confirm('confirm submit')) {
+      aForm.submit();
+    }
+  }
+}
+
+//reset form fields bootstrap stuff on reset
+function resetFields() {
+  const form = document.getElementById('aForm');
+  Array.from(form.elements).forEach((element) => {
+    if (element.getAttribute('class') == 'form-control is-invalid') {
+      element.setAttribute('class', 'form-control');
+    }
+  });
+}
+
 //function to make a table from an object
 function makeTable(data, name, placeIn, bsClass) {
   let placement = document.getElementById(placeIn);
@@ -60,75 +145,4 @@ function loadViewFooter() {
   fetch('/customer/viewFooter.html')
     .then((response) => response.text())
     .then((text) => (document.getElementById('viewFooter').innerHTML = text));
-}
-
-function validate(myform) {
-  var Fname = document.getElementById('Fname');
-  if (Fname.value == '') {
-    alert('First name is required');
-    Fname.focus();
-    return false;
-  }
-  var Lname = document.getElementById('Lname');
-  if (Lname.value == '') {
-    alert('Last name is required');
-    Lname.focus();
-    return false;
-  }
-  var addy = document.getElementById('addy');
-  if (addy.value == '') {
-    alert('Address is required');
-    addy.focus();
-    return false;
-  }
-  if (postal.value == '') {
-    alert('Postal Code is required');
-    postal.focus();
-    return false;
-  } else {
-    myform.postal.value = myform.postal.value.toUpperCase();
-    var reg = /^[A-Z]\d[A-Z][-]?\d[A-Z]\d$/;
-    if (!reg.test(myform.postal.value)) {
-      alert('postal code format is incorrect, must be x9x 9x9');
-      myform.postal.focus();
-      return false;
-    }
-  }
-  if (city.value == '') {
-    alert('City is required');
-    city.focus();
-    return false;
-  }
-  if (prov.value == '') {
-    alert('Province is required');
-    prov.focus();
-    return false;
-  }
-  if (country.value == '') {
-    alert('Country is required');
-    country.focus();
-    return false;
-  }
-  if (email.value == '') {
-    alert('Email is required');
-    email.focus();
-    return false;
-  }
-  if (phoneNumber.value == '') {
-    alert('phone number is required');
-    phoneNumber.focus();
-    return false;
-  }
-  if (busno.value == '') {
-    alert(
-      'Business phone number is not required, if not applicable to you <br/> type na into the box'
-    );
-    busno.focus();
-    return false;
-  }
-  if (passw.value == '') {
-    alert('password is a required feild');
-    passw.focus();
-    return false;
-  }
 }
