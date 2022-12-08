@@ -126,11 +126,6 @@ function validate(myform) {
     busno.focus();
     return false;
   }
-  if (userid.value == '') {
-    alert('you must pick a User ID');
-    userid.focus();
-    return false;
-  }
   if (passw.value == '') {
     alert('password is a required feild');
     passw.focus();
