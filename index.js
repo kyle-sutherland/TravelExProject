@@ -32,6 +32,11 @@ function startDBConnection() {
   return connection0;
 }
 
+//function to generate a timestamped userId
+function genId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
 //customer views and route handlers
 
 //dedault route
@@ -72,6 +77,13 @@ app.get('/register', (req, res) => {
   });
 });
 
+//registerSuccess route handler
+app.get('/registerSuccess', (req, res) => {
+  res.sendFile(path.join(__dirname, '/views/registerSuccess.html'), (err) => {
+    if (err) throw err;
+  });
+});
+
 //main page handler
 app.get('/main', (req, res) => {
   res.sendFile(path.join(__dirname, '/views/main.html'), (err) => {
@@ -81,50 +93,44 @@ app.get('/main', (req, res) => {
 
 //customer reg form route
 app.post('/registerCustomer', (req, res) => {
-  let myConnection = startDBConnection();
-  let fname = req.body.Fname;
-  let lname = req.body.Lname;
-  let address = req.body.addy;
-  let postal = req.body.postal;
-  let city = req.body.city;
-  let prov = req.body.prov;
-  let country = req.body.country;
-  let email = req.body.email;
-  let phonenumber = req.body.phoneNumber;
-  let busno = req.body.busno;
-  let userId = req.body.userId;
-  let passw = req.body.passw;
-  myConnection.connect((err) => {
+  let _fname = req.body.Fname;
+  let _lname = req.body.Lname;
+  let _address = req.body.addy;
+  let _postal = req.body.postal;
+  let _city = req.body.city;
+  let _prov = req.body.prov;
+  let _country = req.body.country;
+  let _email = req.body.email;
+  let _phonenumber = req.body.phoneNumber;
+  let _busno = req.body.busno;
+  let _userId = genId();
+  let _passw = req.body.passw;
+  let formDataObj = {
+    CustomerId: _userId,
+    CustFirstName: _fname,
+    CustLastName: _lname,
+    CustAddress: _address,
+    CustCity: _city,
+    CustProv: _prov,
+    CustPostal: _postal,
+    CustCountry: _country,
+    CustHomePhone: _phonenumber,
+    CustBusPhone: _busno,
+    CustEmail: _email,
+    CustPw: _passw,
+  };
+  fs.writeFile('./views/customerList.json', '', (err) => {
     if (err) throw err;
-    let sqlUpd =
-      'INSERT INTO customers (CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail) VALUES ("' +
-      fname +
-      '", "' +
-      lname +
-      '", "' +
-      address +
-      '", "' +
-      city +
-      '", "' +
-      prov +
-      '", "' +
-      postal +
-      '", "' +
-      country +
-      '", "' +
-      phonenumber +
-      '", "' +
-      busno +
-      '", "' +
-      email +
-      '")';
-    myConnection.query(sqlUpd, (err, result, fields) => {
-      if (err) throw err;
-      console.log('customer updated');
-      myConnection.end();
+  });
+  fs.open('./views/customerList.json', 'a', 666, function (err, fd) {
+    if (err) throw err;
+    fs.write(fd, JSON.stringify(formDataObj), null, 'utf8', function () {
+      fs.close(fd, function () {
+        console.log('file closed');
+      });
     });
   });
-  res.redirect('/register');
+  res.redirect('/registerSuccess');
 });
 
 //internal client views and handlers
@@ -278,3 +284,34 @@ app.post('/updateAgent', (req, res) => {
   });
   res.redirect('/agentselect');
 });
+
+// myConnection.connect((err) => {
+//   if (err) throw err;
+//   let sqlUpd =
+//     'INSERT INTO customers (CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail) VALUES ("' +
+//     fname +
+//     '", "' +
+//     lname +
+//     '", "' +
+//     address +
+//     '", "' +
+//     city +
+//     '", "' +
+//     prov +
+//     '", "' +
+//     postal +
+//     '", "' +
+//     country +
+//     '", "' +
+//     phonenumber +
+//     '", "' +
+//     busno +
+//     '", "' +
+//     email +
+//     '")';
+//   myConnection.query(sqlUpd, (err, result, fields) => {
+//     if (err) throw err;
+//     console.log('customer updated');
+//     myConnection.end();
+//   });
+// });
