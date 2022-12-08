@@ -45,19 +45,19 @@ function makeTable(data, name, placeIn, bsClass) {
 }
 
 function loadDefault() {
-  fetch('main.html')
+  fetch('/customer/main.html')
     .then((response) => response.text())
     .then((text) => (document.getElementsByTagName('html').innerHTML = text));
 }
 
 function loadViewHead() {
-  fetch('navBar.html')
+  fetch('/customer/navBar.html')
     .then((response) => response.text())
     .then((text) => (document.getElementById('viewHead').innerHTML = text));
 }
 
 function loadViewFooter() {
-  fetch('viewFooter.html')
+  fetch('/customer/viewFooter.html')
     .then((response) => response.text())
     .then((text) => (document.getElementById('viewFooter').innerHTML = text));
 }
