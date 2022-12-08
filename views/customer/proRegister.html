@@ -17,33 +17,46 @@
     <h3>Become a registered user and get emailed notifications about our latest travel Packages</h3>
     <br />
     <div id="registerFormContainer" class="container grid col-lg-4 col-md-8 col-sm-10">
-      <form align="center" method="post" action="/registerCustomer">
+      <form id="aForm" method="post" action="/registerCustomer" onsubmit="return validateForm()">
         <div class="pb-3">
-          <label class="form-label">First Name:</label><input class="form-control" type="text" id="Fname" name="Fname" />
+          <label for="fname">First Name</label>
+          <input class="form-control" type="text" id="fname" name="fname" data-bs-toggle="tooltip" title="Enter your first name" data-bs-placement="right">
+          <label for="lname">Last Name</label>
+          <input class="form-control" type="text" id="lname" name="lname" data-bs-toggle="tooltip" title="Enter your last name" data-bs-placement="right">
 
-          <label class="form-label">Last Name:</label><input class="form-control" type="text" id="Lname" name="Lname" />
+          <label for="email">Email</label>
+          <input class="form-control" type="text" id="email" name="email" data-bs-toggle="tooltip" title="Enter your email" data-bs-placement="right">
 
-          <label class="form-label">Address:</label><input class="form-control" type="text" id="addy" name="addy" />
+          <label for="address">Address</label>
+          <input class="form-control" type="text" id="address" name="address" data-bs-toggle="tooltip" title="Enter your street adress" data-bs-placement="right">
 
-          <label for="postal">Postal Code:</label><input class="form-control" type="text" id="postal" name="postal" />
+          <label for="city">City</label>
+          <input class="form-control" type="text" id="city" name="city" data-bs-toggle="tooltip" title="Enter a city" data-bs-placement="right">
 
-          <label class="form-label">City:</label><input class="form-control" type="text" id="city" name="city" />
+          <label for="prov">Province</label>
+          <input class="form-control" type="text" id="prov" name="prov" data-bs-toggle="tooltip" title="Enter a province" data-bs-placement="right">
 
-          <label class="form-label">Province:</label><input class="form-control" type="text" id="prov" name="prov" />
+          <label for="country">Country</label>
+          <input class="form-control" type="text" id="country" name="country" data-bs-toggle="tooltip" title="Enter a country" data-bs-placement="right">
 
-          <label class="form-label">country:</label><input class="form-control" type="text" id="country" name="country" />
+          <label for="postCode">Postal Code</label>
+          <input class="form-control" type="text" id="postCode" name="postCode" data-bs-toggle="tooltip" title="Enter your postal code" data-bs-placement="right">
 
-          <label class="form-label">email:</label><input class="form-control" type="text" id="email" name="email" />
+          <label for=""></label>
+          <input class="form-control" type="text" id="" name="" data-bs-toggle="tooltip" title="" data-bs-placement="right">
 
-          <label class="form-label">Phone Number:</label><input class="form-control" type="text" id="phoneNumber" name="phoneNumber" />
+          <label for=""></label>
+          <input class="form-control" type="text" id="" name="" data-bs-toggle="tooltip" title="" data-bs-placement="right">
 
-          <label class="form-label">Business Phone Number:</label><input class="form-control" type="text" id="busno" name="busno" />
+          <label for="choosePass">choose a password</label>
+          <input class="form-control" type="password" id="choosePass" name="choosePass" data-bs-toggle="tooltip" title="Enter a password. Must be at least 10 characters and contain an upper and lower case letter and a number" data-bs-placement="right">
 
-          <label class="form-label">Password</label><input class="form-control" type="password" id="passw" name="passw" />
+          <label for="retypePass">retype password</label>
+          <input class="form-control" type="password" id="retypePass" name="retypePass" data-bs-toggle="tooltip" title="Confirm password" data-bs-placement="right">
         </div>
 
-        <button type="submit" name="submit" class="btn btn-primary" onclick="return validate(this.form)">Submit</button>
-        <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+        <input type="submit" value="Submit" class="btn btn-primary">
+        <input type="reset" value="Reset" class="btn btn-secondary" onclick="resetFields()">
       </form>
     </div>
   </div>
@@ -55,10 +68,11 @@
   <br>
   <br>
   <div id="viewFooter" class="responsive-footer"></div>
-  <script src="/scripts/jquery.js" type="module"></script>
+  <script src="/scripts/jquery.js"></script>
+  <script src="/scripts/clientScript.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-  <script src="/scripts/clientScript.js"></script>
+
   <script>
     loadViewHead();
     loadViewFooter();

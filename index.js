@@ -110,18 +110,18 @@ app.get('/main', (req, res) => {
 
 //customer reg form route
 app.post('/registerCustomer', (req, res) => {
-  let _fname = req.body.Fname;
-  let _lname = req.body.Lname;
-  let _address = req.body.addy;
-  let _postal = req.body.postal;
+  let _fname = req.body.fname;
+  let _lname = req.body.lname;
+  let _address = req.body.address;
+  let _postal = req.body.postCode;
   let _city = req.body.city;
   let _prov = req.body.prov;
   let _country = req.body.country;
   let _email = req.body.email;
   let _phonenumber = req.body.phoneNumber;
-  let _busno = req.body.busno;
+  let _busno = req.body.busNumber;
   let _userId = genId();
-  let _passw = req.body.passw;
+  let _passw = req.body.retypePass;
   let formDataObj = {
     CustomerId: _userId,
     CustFirstName: _fname,
@@ -136,10 +136,10 @@ app.post('/registerCustomer', (req, res) => {
     CustEmail: _email,
     CustPw: _passw,
   };
-  fs.writeFile('./data/customerList.json', '', (err) => {
+  fs.writeFile('./views/data/customerList.json', '', (err) => {
     if (err) throw err;
   });
-  fs.open('./data/customerList.json', 'a', 666, function (err, fd) {
+  fs.open('./views/data/customerList.json', 'a', 666, function (err, fd) {
     if (err) throw err;
     fs.write(fd, JSON.stringify(formDataObj), null, 'utf8', function () {
       fs.close(fd, function () {
