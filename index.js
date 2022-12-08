@@ -7,13 +7,24 @@ const path = require('path');
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views', {
-  extentions: ['ejs', 'html', 'htm', 'js', 'json'],
+app.set('views', path.join(__dirname, '/views'));
+app.set('internal', path.join(__dirname, '/views/internal'), {
+  extentions: ['ejs'],
 });
-app.set('media', __dirname + '/media');
-app.set('public', __dirname + '/public');
+app.set('customer', path.join(__dirname, '/views/customer'), {
+  extentions: ['htm', 'html'],
+});
+app.set('data', path.join(__dirname, '/views/data'), { extentions: ['json'] });
+app.set('media', path.join(__dirname, '/views/media'), {
+  extentions: ['jpg', 'gif', 'png'],
+});
+app.set('scripts', path.join(__dirname, '/views/scripts'), {
+  extentions: ['js'],
+});
+app.set('styles', path.join(__dirname, '/views/styles'), {
+  extentions: ['css'],
+});
 app.use(express.static('views'));
-app.use(express.static('public'));
 app.use(bodyparser.urlencoded({ extended: true }));
 
 app.listen(8000, (err) => {
@@ -41,21 +52,21 @@ function genId() {
 
 //dedault route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/main.html'), (err) => {
+  res.sendFile(path.join(__dirname, '/views/customer/main.html'), (err) => {
     if (err) throw err;
   });
 });
 
 //about page route
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/about.html'), (err) => {
+  res.sendFile(path.join(__dirname, '/views/customer/about.html'), (err) => {
     if (err) throw err;
   });
 });
 
 //contact page route
 app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/contact.html'), (err) => {
+  res.sendFile(path.join(__dirname, '/views/customer/contact.html'), (err) => {
     if (err) throw err;
   });
 });
@@ -63,7 +74,7 @@ app.get('/contact', (req, res) => {
 //vacation packages route handler customer view
 app.get('/vacationPackages', (req, res) => {
   res.sendFile(
-    path.join(__dirname, '/views/vacationPackagesView.html'),
+    path.join(__dirname, '/views/customer/vacationPackagesView.html'),
     (err) => {
       if (err) throw err;
     }
@@ -72,21 +83,27 @@ app.get('/vacationPackages', (req, res) => {
 
 //proRegister route hander customer view
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/proRegister.html'), (err) => {
-    if (err) throw err;
-  });
+  res.sendFile(
+    path.join(__dirname, '/views/customer/proRegister.html'),
+    (err) => {
+      if (err) throw err;
+    }
+  );
 });
 
 //registerSuccess route handler
 app.get('/registerSuccess', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/registerSuccess.html'), (err) => {
-    if (err) throw err;
-  });
+  res.sendFile(
+    path.join(__dirname, '/views/customer/registerSuccess.html'),
+    (err) => {
+      if (err) throw err;
+    }
+  );
 });
 
 //main page handler
 app.get('/main', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/main.html'), (err) => {
+  res.sendFile(path.join(__dirname, '/views/customer/main.html'), (err) => {
     if (err) throw err;
   });
 });
@@ -119,10 +136,10 @@ app.post('/registerCustomer', (req, res) => {
     CustEmail: _email,
     CustPw: _passw,
   };
-  fs.writeFile('./views/customerList.json', '', (err) => {
+  fs.writeFile('./data/customerList.json', '', (err) => {
     if (err) throw err;
   });
-  fs.open('./views/customerList.json', 'a', 666, function (err, fd) {
+  fs.open('./data/customerList.json', 'a', 666, function (err, fd) {
     if (err) throw err;
     fs.write(fd, JSON.stringify(formDataObj), null, 'utf8', function () {
       fs.close(fd, function () {
@@ -146,7 +163,7 @@ app.post('/publishProducts', (req, res) => {
     connection0.query(query, (err, result, fields) => {
       if (err) throw err;
       console.log(result);
-      fs.writeFile('./views/products.json', JSON.stringify(result), (err) => {
+      fs.writeFile('./data/products.json', JSON.stringify(result), (err) => {
         if (err) throw err;
         console.log('file saved');
       });
@@ -165,7 +182,7 @@ app.post('/publishContactList', (req, res) => {
       if (err) throw err;
       console.log(result);
       fs.writeFile(
-        './views/contactsList.json',
+        './data/contactsList.json',
         JSON.stringify(result),
         (err) => {
           if (err) throw err;

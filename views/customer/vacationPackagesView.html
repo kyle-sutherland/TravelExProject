@@ -3,22 +3,34 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us</title>
+  <title>Vacation Packages</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <link href="./style.css" rel="stylesheet">
+  <link href="/styles/style.css" rel="stylesheet">
 </head>
 
 <body>
   <div id="viewHead" class="sticky-top pb-3"></div>
   <div class="grid container-fluid col-lg-10 col-sm-12 align-items-center overflow-scroll" id="mainDiv">
-
+    <div id="clientPackagesTable" class="table-responsive mx-auto rounded shadow padded bg-light col-lg-8 col-md-10 col-sm-12 overflow-scroll p-5">
+      <div class="text px-3">
+        <h4>Vaction Packages</h4>
+      </div>
+    </div>
+    <br>
   </div>
   <div id="viewFooter" class="responsive-footer"></div>
-  <script src="./jquery.js" type="module"></script>
+  <script src="/scripts/jquery.js" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-  <script src="./clientScript.js"></script>
+  <script src="/scripts/clientScript.js"></script>
   <script>
+    fetch('../data/products.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((jsondata) => {
+        makeTable(jsondata, 'packagesTable', 'clientPackagesTable', 'table-light table-hover pt-3');
+      });
     loadViewHead();
     loadViewFooter();
   </script>
