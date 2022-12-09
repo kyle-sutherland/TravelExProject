@@ -171,7 +171,7 @@ app.post('/publishProducts', (req, res) => {
       });
     });
   });
-  res.redirect('/productView');
+  res.redirect('/productsView');
 });
 
 app.post('/publishContactList', (req, res) => {
@@ -197,13 +197,13 @@ app.post('/publishContactList', (req, res) => {
 });
 
 //product view route handler client view
-app.get('/productView', (req, res) => {
+app.get('/productsView', (req, res) => {
   let myConnection = startDBConnection();
   myConnection.connect((err) => {
     if (err) throw err;
     myConnection.query('SELECT * FROM packages', (err, result, fields) => {
       if (err) throw err;
-      res.render('productsView', { result: result, fields: fields });
+      res.render('internal/productsView', { result: result, fields: fields });
       myConnection.end((err) => {
         if (err) throw err;
       });
@@ -217,7 +217,7 @@ app.get('/getallagents', (req, res) => {
     if (err) throw err;
     myConnection.query('SELECT * FROM agents', (err, result, fields) => {
       if (err) throw err;
-      res.render('allAgents', { result: result, fields: fields });
+      res.render('internal/allAgents', { result: result, fields: fields });
       myConnection.end((err) => {
         if (err) throw err;
       });
@@ -236,7 +236,10 @@ app.get('/agentselect', (req, res) => {
     let sql = 'SELECT AgentId, AgtFirstName, AgtLastName FROM agents';
     myConnection.query(sql, (err, result, fields) => {
       if (err) throw err;
-      res.render('agentSelectPage', { result: result, fields: fields });
+      res.render('internal/agentSelectPage', {
+        result: result,
+        fields: fields,
+      });
       myConnection.end();
     });
   });
@@ -255,7 +258,7 @@ app.post('/getoneagent', (req, res) => {
       (err, result, fields) => {
         if (err) throw err;
         console.log('result:', result);
-        res.render('agentView', { result: result, fields: fields });
+        res.render('internal/agentView', { result: result, fields: fields });
         myConnection.end((err) => {
           if (err) throw err;
         });

@@ -6,12 +6,17 @@
   <m eta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
 </head>
 
 <body>
-  <div id="prducts-table">
-    <h1>Vacation Packages</h1>
-    <table border="1">
+  <%- include('./navigation.ejs')%>
+  <div id="prducts-table" class="table-responsive mx-auto padded bg-light p-4">
+    <div class="text px-3">
+      <h4>Vaction Packages</h4>
+    </div>
+    <table class="table-light pt-3">
       <tr>
         <thead>
           <% Object.keys(fields).forEach(function(key) {%>
@@ -34,6 +39,8 @@
       <button type="submit" onclick="alert('query result saved as JSON')">Publish</button>
     </form>
   </div>
+  <script src="/scripts/jquery.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 
 </html>
