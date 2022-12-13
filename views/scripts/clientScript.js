@@ -156,7 +156,7 @@ function loadViewFooter() {
     .then((text) => (document.getElementById('viewFooter').innerHTML = text));
 }
 
-var JD_sessInfo;
+var _sessInfo;
 function getSession() {
   //let sessInfoContainer =document.getElementById('sessInfo')
   fetch('/getSessInfo')
