@@ -10,31 +10,22 @@
 
 <body>
   <div id="viewHead" class="sticky-top pb-3"></div>
-  <div class="grid container-fluid col-lg-6 col-md-8 col-sm-12 align-items-center overflow-scroll" id="mainDiv">
-    <div name="contactFormContainer" class="container-fluid py-5">
-      <h2>Give Feedback to Our Website.</h2>
-      <form action="mailto:observer65186@gmail.com" method="get" enctype="text/plain">
-        <div>
-          <label for="name" class="form-label">Name:
-            <input type="text" name="name" id="name" class="form-control" />
-          </label>
-        </div>
-        <div>
-          <label for="email" class="form-label">Email:
-            <input type="text" name="email" id="email" class="form-control" />
-          </label>
-        </div>
-        <div class="pb-3">
-          <label class="form-label">Comments:</label>
-          <br />
-          <textarea name="comments" rows="12" cols="35" class="form-control">Send your comments to us.</textarea>
-        </div>
-        <div>
-          <input type="submit" name="submit" value="Send" class="btn btn-primary" />
-          <input type="reset" name="reset" value="Clear Form" class="btn btn-secondary" />
-        </div>
+  <div class="grid container-fluid col-lg-10 col-sm-12 align-items-center overflow-scroll" id="mainDiv">
+    <div class="">
+      <h1>Login</h1>
+      <form action="/customer_auth" method="post">
+        <label for="username">
+          <i class=""></i>
+        </label>
+        <input type="text" name="email" placeholder="something@email.com" id="email" required>
+        <label for="password">
+          <i class=""></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <input type="submit" value="Login">
       </form>
     </div>
+
   </div>
   <div id="viewFooter" class="responsive-footer"></div>
   <script src="/scripts/jquery.js"></script>
@@ -46,7 +37,6 @@
     loadViewHead();
     loadViewFooter();
     getSession();
-    viewSession();
   </script>
 </body>
 

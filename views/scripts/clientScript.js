@@ -6,8 +6,8 @@ jQuery(function () {
   $('[data-bs-toggle="tooltip"]').tooltip();
 });
 jQuery(function () {
-  $(phone).mask('(000) 000-0000');
-  $(busNumber).mask('(000) 000-0000');
+  $(phone).mask('(000)-000-0000');
+  $(busNumber).mask('(000)-000-0000');
   $(postCode).mask('S0S-0S0');
 });
 
@@ -22,10 +22,14 @@ function isPassStrong(pass) {
 }
 
 function isValidPostCode(postcode) {
-  if (postcode != /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/) {
+  return /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postcode);
+}
+
+function isBlankQ() {
+  let input = document.forms['cqForm']['query'].value;
+  if (input == '') {
+    alert('field is empty');
     return false;
-  } else {
-    return true;
   }
 }
 
@@ -150,4 +154,28 @@ function loadViewFooter() {
   fetch('/customer/viewFooter.html')
     .then((response) => response.text())
     .then((text) => (document.getElementById('viewFooter').innerHTML = text));
+}
+
+var JD_sessInfo;
+function getSession() {
+  //let sessInfoContainer =document.getElementById('sessInfo')
+  fetch('/getSessInfo')
+    .then((res) => res.text())
+    .then((sessInfo) => {
+      console.log(sessInfo);
+      _sessInfo = JSON.parse(sessInfo);
+    });
+}
+
+function viewSession() {
+  if (_sessInfo) {
+    let firstName = _sessInfo.fname;
+    let cartPop = _sessInfo.cart.length;
+    document.getElementById('sessionInfo').innerHTML =
+      'Welcome ' +
+      firstName +
+      '! You have ' +
+      cartPop +
+      ' item(s) in your cart';
+  }
 }

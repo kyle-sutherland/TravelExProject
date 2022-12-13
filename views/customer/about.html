@@ -17,8 +17,8 @@
       </p>
     </div>
 
-    <div id="agentsTableContainer" class="table-responsive mx-auto rounded shadow padded bg-light col-lg-6 col-md-10 col-sm-12 overflow-scroll p-5">
-      <div class="text px-3">
+    <div id="agentsTableContainer" class="table-responsive mx-auto rounded shadow padded bg-light col-lg-6 col-md-10 col-sm-12 overflow-scroll p-3">
+      <div class="text p-3">
         <h4>Our Team</h4>
       </div>
     </div>
@@ -41,10 +41,12 @@
         return response.json();
       })
       .then((jsondata) => {
-        makeTable(jsondata, 'agentsTable', 'agentsTableContainer', 'table-light table-hover pt-3');
+        makeTable(jsondata, 'agentsTable', 'agentsTableContainer', 'table-light table-hover pt-3 p-5');
       });
     loadViewHead();
     loadViewFooter();
+    getSession();
+    viewSession();
   </script>
 </body>
 

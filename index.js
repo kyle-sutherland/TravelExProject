@@ -2,8 +2,10 @@ const fs = require('fs');
 const express = require('express');
 const mysql = require('mysql');
 const bodyparser = require('body-parser');
-const { req, res } = require('express');
+const { req, res, response } = require('express');
 const path = require('path');
+const session = require('express-session');
+const JSON = require('express-json');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -23,6 +25,19 @@ app.set('scripts', path.join(__dirname, '/views/scripts'), {
 });
 app.set('styles', path.join(__dirname, '/views/styles'), {
   extentions: ['css'],
+});
+
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(express.json());
+app.use((request, response, next) => {
+  response.set('X-Content-Type-Options', 'nosniff');
+  next();
 });
 app.use(express.static('views'));
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -45,7 +60,11 @@ function startDBConnection() {
 
 //function to generate a timestamped userId
 function genId() {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  let id = '';
+  for (let i = 0; i < 11; i++) {
+    id += Math.floor(Math.random() * 9);
+  }
+  return id;
 }
 
 //customer views and route handlers
@@ -108,48 +127,106 @@ app.get('/main', (req, res) => {
   });
 });
 
+//login page route
+app.get('/customerLogin', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, '/views/customer/customerLogin.html'),
+    (err) => {
+      if (err) throw err;
+    }
+  );
+});
+var _sessInfo;
+// http://localhost:3000/customer_auth
+app.post('/customer_auth', function (request, response) {
+  let connection = startDBConnection();
+  let email = request.body.email;
+  let password = request.body.password;
+  // Ensure the input fields exists and are not empty
+  if (email && password) {
+    // Execute SQL query that'll select the account from the database based on the specified email and password
+    connection.query(
+      'SELECT * FROM customers WHERE CustEmail = ? AND CustPassword = ?',
+      [email, password],
+      function (error, result, fields) {
+        if (error) throw error;
+        // If the account exists
+        if (result.length > 0) {
+          // Authenticate the user
+          request.session.loggedin = true;
+          request.session.email = email;
+          request.session.fname = result[0].CustFirstName;
+          request.session.cart = [];
+          //pass session info
+          _sessInfo = request.session;
+          // Redirect to home page
+          console.log(request.session);
+          response.redirect('/');
+        } else {
+          response.send('Incorrect email and/or Password!');
+        }
+        response.end();
+      }
+    );
+  } else {
+    response.send('Please enter email and Password!');
+    response.end();
+  }
+});
+
+app.get('/getSessInfo', (req, res) => {
+  res.json(_sessInfo);
+});
+
 //customer reg form route
 app.post('/registerCustomer', (req, res) => {
+  let connection = startDBConnection();
+  let _userId = genId();
   let _fname = req.body.fname;
   let _lname = req.body.lname;
   let _address = req.body.address;
-  let _postal = req.body.postCode;
   let _city = req.body.city;
   let _prov = req.body.prov;
+  let _postal = req.body.postCode;
   let _country = req.body.country;
-  let _email = req.body.email;
   let _phonenumber = req.body.phone;
   let _busno = req.body.busNumber;
-  let _userId = genId();
-  let _passw = req.body.retypePass;
-  let formDataObj = {
-    _email: {
-      CustomerId: _userId,
-      CustFirstName: _fname,
-      CustLastName: _lname,
-      CustAddress: _address,
-      CustCity: _city,
-      CustProv: _prov,
-      CustPostal: _postal,
-      CustCountry: _country,
-      CustHomePhone: _phonenumber,
-      CustBusPhone: _busno,
-      CustEmail: _email,
-      CustPw: _passw,
-    },
-  };
-  fs.writeFile('./views/data/customerList.json', '', (err) => {
+  let _email = req.body.email;
+  let _password = req.body.retypePass;
+  connection.connect((err) => {
     if (err) throw err;
-  });
-  fs.open('./views/data/customerList.json', 'a', 666, function (err, fd) {
-    if (err) throw err;
-    fs.write(fd, JSON.stringify(formDataObj), null, 'utf8', function () {
-      fs.close(fd, function () {
-        console.log('file closed');
-      });
+    let sqlUpd =
+      'INSERT INTO customers (CustomerId, CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail, CustPassword) VALUES (' +
+      _userId +
+      ', "' +
+      _fname +
+      '", "' +
+      _lname +
+      '", "' +
+      _address +
+      '", "' +
+      _city +
+      '", "' +
+      _prov +
+      '", "' +
+      _postal +
+      '", "' +
+      _country +
+      '", "' +
+      _phonenumber +
+      '", "' +
+      _busno +
+      '", "' +
+      _email +
+      '", "' +
+      _password +
+      '")';
+    connection.query(sqlUpd, (err, result, fields) => {
+      if (err) throw err;
+      console.log('customer updated');
+      connection.end();
     });
   });
-  res.redirect('/registerSuccess');
 });
 
 //internal client views and handlers
@@ -223,10 +300,6 @@ app.get('/getallagents', (req, res) => {
       });
     });
   });
-});
-
-app.get('/', (req, res) => {
-  res.render('index', { name: 'Kyle' });
 });
 
 app.get('/agentselect', (req, res) => {
@@ -307,33 +380,48 @@ app.post('/updateAgent', (req, res) => {
   res.redirect('/agentselect');
 });
 
-// myConnection.connect((err) => {
+app.get('/customQuery', (req, res) => {
+  res.render('internal/customQuery');
+});
+
+app.post('/queryResponse', (req, res) => {
+  let connection = startDBConnection();
+  let query = String(req.body.query);
+  connection.connect((err) => {
+    if (err) throw err;
+    connection.query(query, (err, result, fields) => {
+      if (err) throw err;
+      console.log('fields:' + fields + 'result:' + result);
+      res.render('internal/queryResponse', { result: result, fields: fields });
+    });
+  });
+});
+
+// let formDataObj = {
+//   _email: {
+//     CustomerId: _userId,
+//     CustFirstName: _fname,
+//     CustLastName: _lname,
+//     CustAddress: _address,
+//     CustCity: _city,
+//     CustProv: _prov,
+//     CustPostal: _postal,
+//     CustCountry: _country,
+//     CustHomePhone: _phonenumber,
+//     CustBusPhone: _busno,
+//     CustEmail: _email,
+//     CustPw: _passw,
+//   },
+// };
+// fs.writeFile('./views/data/customerList.json', '', (err) => {
 //   if (err) throw err;
-//   let sqlUpd =
-//     'INSERT INTO customers (CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail) VALUES ("' +
-//     fname +
-//     '", "' +
-//     lname +
-//     '", "' +
-//     address +
-//     '", "' +
-//     city +
-//     '", "' +
-//     prov +
-//     '", "' +
-//     postal +
-//     '", "' +
-//     country +
-//     '", "' +
-//     phonenumber +
-//     '", "' +
-//     busno +
-//     '", "' +
-//     email +
-//     '")';
-//   myConnection.query(sqlUpd, (err, result, fields) => {
-//     if (err) throw err;
-//     console.log('customer updated');
-//     myConnection.end();
+// });
+// fs.open('./views/data/customerList.json', 'a', 666, function (err, fd) {
+//   if (err) throw err;
+//   fs.write(fd, JSON.stringify(formDataObj), null, 'utf8', function () {
+//     fs.close(fd, function () {
+//       console.log('file closed');
+//     });
 //   });
 // });
+// res.redirect('/registerSuccess');
